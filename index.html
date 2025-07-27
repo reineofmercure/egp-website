@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EGP Maroc - Premium Tech Marketplace</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SZW0TMT4QT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SZW0TMT4QT');
+    </script>
+
     <style>
         /* ===== RESET & BASE STYLES ===== */
         * {
@@ -644,6 +654,12 @@
                             product.style.display = product.dataset.category === filter ? 'block' : 'none';
                         }
                     });
+
+                    // Track filter event
+                    gtag('event', 'filter_products', {
+                        'event_category': 'engagement',
+                        'event_label': filter
+                    });
                 });
             });
             
@@ -661,6 +677,12 @@
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
+
+                        // Track navigation click
+                        gtag('event', 'nav_click', {
+                            'event_category': 'navigation',
+                            'event_label': this.textContent.trim()
+                        });
                     }
                 });
             });
@@ -677,6 +699,20 @@
                     const productCard = this.closest('.product-card');
                     const productName = productCard.querySelector('.product-title').textContent;
                     const productPrice = productCard.querySelector('.product-price').textContent;
+                    const productCategory = productCard.dataset.category;
+                    
+                    // Track add_to_cart event
+                    gtag('event', 'add_to_cart', {
+                        'event_category': 'ecommerce',
+                        'event_label': productName,
+                        'value': parseFloat(productPrice.replace(/[^0-9.]/g, '')),
+                        'items': [{
+                            'item_name': productName,
+                            'item_category': productCategory,
+                            'price': parseFloat(productPrice.replace(/[^0-9.]/g, '')),
+                            'quantity': 1
+                        }]
+                    });
                     
                     // Create cart notification
                     const notification = document.createElement('div');
@@ -694,7 +730,6 @@
                     
                     document.body.appendChild(notification);
                     
-                    // Remove notification after 3 seconds
                     setTimeout(() => {
                         notification.style.animation = 'fadeOut 0.3s ease';
                         setTimeout(() => notification.remove(), 300);
@@ -702,6 +737,16 @@
                 });
             });
             
+            // Track footer link clicks
+            document.querySelectorAll('.footer-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    gtag('event', 'footer_click', {
+                        'event_category': 'navigation',
+                        'event_label': this.textContent.trim()
+                    });
+                });
+            });
+
             // Add some simple animations
             const style = document.createElement('style');
             style.textContent = `
