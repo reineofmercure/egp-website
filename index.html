@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGP Maroc - Premium Tech Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f7;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== BLACK HEADER ===== */
+        .main-header {
+            background-color: #000;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            height: 42px;
+            width: auto;
+        }
+        
+        .site-title {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        /* ===== NAVIGATION ===== */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            opacity: 0.9;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #2a5bd7;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .cart-icon {
+            color: #fff;
+            font-size: 1.4rem;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #2a5bd7;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, #121212 0%, #000000 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .hero-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        /* ===== CATEGORY FILTERS ===== */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0 40px;
+        }
+        
+        .category-btn {
+            background: #f1f1f1;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            background: #ddd;
+        }
+        
+        .category-btn.active {
+            background: #2a5bd7;
+            color: white;
+        }
+        
+        /* ===== PRODUCT GRID ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0 60px;
+        }
+        
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image-container {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .product-image {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 22px;
+        }
+        
+        .product-title {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: #222;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: #e53935;
+            font-size: 1.35rem;
+            margin: 12px 0;
+        }
+        
+        .product-specs {
+            font-size: 0.92rem;
+            color: #666;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+        
+        .add-to-cart {
+            background-color: #2a5bd7;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #1a4bbd;
+        }
+        
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background-color: #000;
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 22px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #2a5bd7;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+            transform: translateX(5px);
+        }
+        
+        .contact-info {
+            color: #bbb;
+            line-height: 1.8;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: #2a5bd7;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .main-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Black Header -->
+    <header class="main-header" id="home">
+        <div class="container header-content">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="EGP Maroc" class="logo">
+                <h1 class="site-title">EGP Maroc</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">Premium Refurbished Tech</h2>
+            <p class="hero-subtitle">Discover high-quality devices at unbeatable prices, with warranty and eco-friendly benefits</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Category Navigation -->
+        <div class="category-nav" id="products">
+            <button class="category-btn active" data-filter="all">All Products</button>
+            <button class="category-btn" data-filter="smartphones">Smartphones</button>
+            <button class="category-btn" data-filter="laptops">Laptops</button>
+            <button class="category-btn" data-filter="tablets">Tablets</button>
+            <button class="category-btn" data-filter="tv">TVs</button>
+            <button class="category-btn" data-filter="audio">Audio</button>
+            <button class="category-btn" data-filter="appliances">Appliances</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Smartphones -->
+            <div class="product-card" data-category="smartphones">
+                <div class="product-image-container">
+                    <img src="images/products/smartphones/samsung-galaxy-s21-128gb.jpg" 
+                         alt="Samsung Galaxy S21" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Samsung Galaxy S21</h3>
+                    <div class="product-price">8,200 MAD</div>
+                    <p class="product-specs">6.2" Dynamic AMOLED 120Hz | 128GB Storage | Triple Camera System | 5G</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="smartphones">
+                <div class="product-image-container">
+                    <img src="images/products/smartphones/apple-iphone-13-128gb.jpg" 
+                         alt="Apple iPhone 13" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 13</h3>
+                    <div class="product-price">9,500 MAD</div>
+                    <p class="product-specs">6.1" Super Retina XDR | 128GB | Dual 12MP Cameras | A15 Bionic Chip</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Laptops -->
+            <div class="product-card" data-category="laptops">
+                <div class="product-image-container">
+                    <img src="images/products/laptops/hp-pavilion-15-i5-8gb.jpg" 
+                         alt="HP Pavilion Laptop" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">hp pavilion i5</h3>
+                    <div class="product-price">6,000 MAD</div>
+                    <p class="product-specs">15.6" FHD IPS | Core i5-1135G7 | 8GB RAM | 512GB SSD | Windows 11</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="laptops">
+                <div class="product-image-container">
+                    <img src="images/products/laptops/dell-inspiron-ryzen7-16gb.jpg" 
+                         alt="Dell Inspiron Laptop" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Dell Inspiron</h3>
+                    <div class="product-price">7,500 MAD</div>
+                    <p class="product-specs">14" FHD IPS | Ryzen 7 5700U | 16GB RAM | 1TB SSD | Backlit Keyboard</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Tablets -->
+            <div class="product-card" data-category="tablets">
+                <div class="product-image-container">
+                    <img src="images/products/tablets/apple-ipad-air-256gb.jpg" 
+                         alt="Apple iPad Air" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">iPad Air</h3>
+                    <div class="product-price">5,800 MAD</div>
+                    <p class="product-specs">10.9" Liquid Retina | 256GB | A14 Bionic Chip | Touch ID | WiFi+Cellular</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- TVs -->
+            <div class="product-card" data-category="tv">
+                <div class="product-image-container">
+                    <img src="images/products/tv/samsung-tv-55inch-4k.jpg" 
+                         alt="Samsung 55\" 4K TV" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Samsung 55" 4K TV</h3>
+                    <div class="product-price">7,200 MAD</div>
+                    <p class="product-specs">55" 4K UHD | Crystal Processor | HDR10+ | Smart TV | 3 HDMI Ports</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Audio -->
+            <div class="product-card" data-category="audio">
+                <div class="product-image-container">
+                    <img src="images/products/audio/apple-airpods-pro.jpg" 
+                         alt="Apple AirPods Pro" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">AirPods Pro</h3>
+                    <div class="product-price">2,500 MAD</div>
+                    <p class="product-specs">Active Noise Cancellation | Transparency Mode | Wireless Charging Case</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="audio">
+                <div class="product-image-container">
+                    <img src="images/products/audio/sony-wh-1000xm4.jpg" 
+                         alt="Sony WH-1000XM4" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Sony WH-1000XM4</h3>
+                    <div class="product-price">3,200 MAD</div>
+                    <p class="product-specs">Industry-leading ANC | 30hr Battery | Touch Controls | Bluetooth 5.0</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Appliances -->
+            <div class="product-card" data-category="appliances">
+                <div class="product-image-container">
+                    <img src="images/products/appliances/lg-refrigerator-500l.jpg" 
+                         alt="LG 500L Refrigerator" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">LG 500L Refrigerator</h3>
+                    <div class="product-price">9,500 MAD</div>
+                    <p class="product-specs">500L Capacity | Inverter Compressor | Smart Cooling | Door Cooling+</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Gaming -->
+            <div class="product-card" data-category="gaming">
+                <div class="product-image-container">
+                    <img src="images/products/gaming/sony-ps5-digital.jpg" 
+                         alt="Sony PS5 Digital Edition" 
+                         class="product-image"
+                         onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">PS5 Digital Edition</h3>
+                    <div class="product-price">6,800 MAD</div>
+                    <p class="product-specs">825GB SSD | 4K Gaming | DualSense Controller | 120Hz Support</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section id="about" style="margin: 80px 0;">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">About EGP Maroc</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px;">
+                    EGP Maroc is Morocco's premier destination for high-quality refurbished electronics. 
+                    We specialize in professionally restored devices that undergo rigorous testing to ensure 
+                    they meet our strict quality standards.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.7;">
+                    Our mission is to provide affordable tech solutions while reducing electronic waste. 
+                    Every purchase comes with a warranty and contributes to a more sustainable future.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Footer -->
+    <footer class="main-footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EGP Maroc</h3>
+                    <p style="color: #bbb; margin-top: 15px; line-height: 1.7;">
+                        Your trusted source for premium refurbished electronics in Morocco. 
+                        Quality products, competitive prices, and excellent service.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#products" data-filter="smartphones">Smartphones</a></li>
+                        <li><a href="#products" data-filter="laptops">Laptops</a></li>
+                        <li><a href="#products" data-filter="tablets">Tablets</a></li>
+                        <li><a href="#products" data-filter="tv">TVs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Casablanca</p>
+                        <p><i class="fas fa-phone"></i> +212 6 12 34 56 78</p>
+                        <p><i class="fas fa-envelope"></i> contact@egpmaroc.com</p>
+                        <p><i class="fas fa-clock"></i> Mon-Sat: 9AM - 7PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 EGP Maroc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== CATEGORY FILTERING =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.category-btn');
+            const products = document.querySelectorAll('.product-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    
+                    products.forEach(product => {
+                        if (filter === 'all') {
+                            product.style.display = 'block';
+                        } else {
+                            product.style.display = product.dataset.category === filter ? 'block' : 'none';
+                        }
+                    });
+                });
+            });
+            
+            // ===== SMOOTH SCROLLING =====
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // ===== CART FUNCTIONALITY =====
+            let cartItems = 0;
+            const cartCountElement = document.querySelector('.cart-count');
+            
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    cartItems++;
+                    cartCountElement.textContent = cartItems;
+                    
+                    const productCard = this.closest('.product-card');
+                    const productName = productCard.querySelector('.product-title').textContent;
+                    const productPrice = productCard.querySelector('.product-price').textContent;
+                    
+                    // Create cart notification
+                    const notification = document.createElement('div');
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '20px';
+                    notification.style.right = '20px';
+                    notification.style.backgroundColor = '#2a5bd7';
+                    notification.style.color = 'white';
+                    notification.style.padding = '15px 25px';
+                    notification.style.borderRadius = '5px';
+                    notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+                    notification.style.zIndex = '1000';
+                    notification.style.animation = 'fadeIn 0.3s ease';
+                    notification.textContent = `${productName} added to cart (${productPrice})`;
+                    
+                    document.body.appendChild(notification);
+                    
+                    // Remove notification after 3 seconds
+                    setTimeout(() => {
+                        notification.style.animation = 'fadeOut 0.3s ease';
+                        setTimeout(() => notification.remove(), 300);
+                    }, 3000);
+                });
+            });
+            
+            // Add some simple animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; transform: translateY(0); }
+                    to { opacity: 0; transform: translateY(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
